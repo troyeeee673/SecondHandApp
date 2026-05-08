@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>数据大屏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <style>
+        /* 移除原来的侧边栏样式，使用统一的样式 */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        /* 添加统一的侧边栏样式 */
+        .sidebar {
+            background: #4155c6;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 280px;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin: 5px 15px;
+        }
+
+        .nav-link {
+            color: #cbd5e1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 24px;
+            font-size: 18px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+            padding: 20px;
+            border-radius: 15px 15px 0 0 !important;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* 快速操作卡片 */
+        .quick-action-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 使用统一的侧边栏模板 -->
+<div th:replace="admin/sidebar :: sidebar(currentPage='dashboard')"></div>
+
+<!-- 主内容区 -->
+<div class="main-content">
+    <!-- 顶部标题栏 -->
+    <div class="header mb-4">
+        <div class="page-title">
+            <i class="fas fa-chart-line"></i>
+            <span>数据大屏</span>
+        </div>
+    </div>
+
+    <!-- 数据统计区域 -->
+    <div class="row">
+        <!-- 商品分类统计图表 -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-pie-chart me-2"></i>商品分类统计
+                </div>
+                <div class="card-body">
+                    <div id="classifyChart" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户类型统计图表 -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-bar-chart me-2"></i>用户类型统计
+                </div>
+                <div class="card-body">
+                    <div id="userTypeChart" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 快速操作卡片 -->
+    <div class="row mt-4">
+        <div class="col-md-3 mb-4">
+            <div class="card text-center quick-action-card">
+                <div class="card-body">
+                    <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
+                    <h5 class="mt-3">用户管理</h5>
+                    <p class="text-muted">管理用户账号和权限</p>
+                    <a href="/admin/web/user-manage" class="btn btn-primary btn-sm">进入</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-center quick-action-card">
+                <div class="card-body">
+                    <i class="bi bi-bag-fill text-success" style="font-size: 2rem;"></i>
+                    <h5 class="mt-3">商品管理</h5>
+                    <p class="text-muted">管理商品信息和状态</p>
+                    <a href="/admin/web/goods-manage" class="btn btn-success btn-sm">进入</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-center quick-action-card">
+                <div class="card-body">
+                    <i class="bi bi-person-badge text-info" style="font-size: 2rem;"></i>
+                    <h5 class="mt-3">个人中心</h5>
+                    <p class="text-muted">修改密码和个人信息</p>
+                    <a href="/admin/web/profile" class="btn btn-info btn-sm">进入</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-center quick-action-card">
+                <div class="card-body">
+                    <i class="bi bi-box-arrow-right text-danger" style="font-size: 2rem;"></i>
+                    <h5 class="mt-3">退出登录</h5>
+                    <p class="text-muted">安全退出系统</p>
+                    <a href="/admin/web/logout" class="btn btn-outline-danger btn-sm">退出</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    // 从后端获取的统计数据
+    var goodsClassifyStat = /*[[${goodsClassifyStat}]]*/ {};
+    var userTypeStat = /*[[${userTypeStat}]]*/ {};
+
+    // 检查数据是否存在
+    if (goodsClassifyStat && Object.keys(goodsClassifyStat).length > 0) {
+        // 1. 初始化商品分类柱状图
+        var classifyChart = echarts.init(document.getElementById('classifyChart'));
+        classifyChart.setOption({
+            title: {
+                text: '商品分类分布',
+                left: 'center',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bold'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                formatter: '{b}: {c}个商品'
+            },
+            xAxis: {
+                type: 'category',
+                data: Object.keys(goodsClassifyStat),
+                axisLabel: {
+                    rotate: 30,
+                    fontSize: 12
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '商品数量',
+                nameTextStyle: {
+                    fontSize: 12
+                }
+            },
+            series: [{
+                name: '商品数量',
+                type: 'bar',
+                data: Object.values(goodsClassifyStat),
+                itemStyle: {
+                    color: '#4f46e5',
+                    borderRadius: [5, 5, 0, 0]
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    fontSize: 12
+                }
+            }]
+        });
+    } else {
+        document.getElementById('classifyChart').innerHTML =
+            '<div class="text-center py-5 text-muted"><i class="bi bi-info-circle"></i> 暂无商品数据</div>';
+    }
+
+    if (userTypeStat && Object.keys(userTypeStat).length > 0) {
+        // 2. 初始化用户类型饼图
+        var userTypeChart = echarts.init(document.getElementById('userTypeChart'));
+        userTypeChart.setOption({
+            title: {
+                text: '用户类型分布',
+                left: 'center',
+                textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'bold'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a}<br/>{b}: {c}人 ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                right: 10,
+                top: 'center'
+            },
+            series: [{
+                name: '用户数量',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['40%', '50%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: true,
+                    position: 'outside',
+                    formatter: '{b}: {c}人'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '14',
+                        fontWeight: 'bold'
+                    }
+                },
+                data: Object.keys(userTypeStat).map(function(key) {
+                    return {
+                        name: key === 'admin' ? '管理员' : '普通用户',
+                        value: userTypeStat[key]
+                    };
+                }),
+                labelLine: {
+                    show: true
+                }
+            }],
+            color: ['#4f46e5', '#10b981', '#f59e0b', '#ef4444'] // 自定义颜色
+        });
+    } else {
+        document.getElementById('userTypeChart').innerHTML =
+            '<div class="text-center py-5 text-muted"><i class="bi bi-info-circle"></i> 暂无用户数据</div>';
+    }
+
+    // 自适应窗口大小
+    window.addEventListener('resize', function() {
+        if (typeof classifyChart !== 'undefined') classifyChart.resize();
+        if (typeof userTypeChart !== 'undefined') userTypeChart.resize();
+    });
+
+    // 添加图表动画
+    setTimeout(function() {
+        if (typeof classifyChart !== 'undefined') {
+            classifyChart.dispatchAction({
+                type: 'highlight',
+                seriesIndex: 0,
+                dataIndex: 0
+            });
+        }
+    }, 1000);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</body>
+</html>

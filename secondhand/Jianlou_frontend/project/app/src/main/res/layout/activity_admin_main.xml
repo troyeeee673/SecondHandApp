@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f5f5f5">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="管理员后台"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:padding="15dp"
+        android:textColor="#333333"/>
+
+    <Button
+        android:id="@+id/btn_pending_users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="待审核用户管理"
+        android:textSize="18sp"
+        android:background="#2196F3"
+        android:textColor="#ffffff"
+        android:layout_marginVertical="8dp"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/btn_goods_manage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="商品管理"
+        android:textSize="18sp"
+        android:background="#2196F3"
+        android:textColor="#ffffff"
+        android:padding="10dp"/>
+
+</LinearLayout>

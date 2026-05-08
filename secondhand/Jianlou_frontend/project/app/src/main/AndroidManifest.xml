@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.jianlou">
+
+    <!-- 权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- 相机功能（可选） -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:name="org.litepal.LitePalApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme">
+
+        <!-- 支付宝支付回调配置 -->
+        <activity
+            android:name=".index.PurchaseDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <!-- 支付宝回调配置（关键！） -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 支付宝标准scheme -->
+                <data android:scheme="alipays" />
+                <!-- 支付宝沙箱scheme（沙箱环境需要） -->
+                <data android:scheme="alipay" />
+                <!-- 你的应用scheme（可选，用于支付后返回） -->
+                <data android:scheme="jianlou" />
+            </intent-filter>
+        </activity>
+
+        <!-- 其他Activity -->
+        <activity android:name=".my.myPublish" />
+        <activity android:name=".index.good_detail" />
+        <activity android:name=".index.search" />
+        <activity android:name=".index.index_search" />
+        <activity android:name=".message.chat" />
+        <activity android:name=".message.message_friend" />
+        <activity android:name=".my.EditName" />
+        <activity android:name=".my.SettingPerson" />
+        <activity android:name=".my.Setting" />
+        <activity android:name=".Activity.StartUP" />
+        <activity android:name=".Login.Register" />
+        <activity android:name=".Login.Login" />
+        <activity android:name=".index.classfiy.classify" />
+        <activity android:name=".index.BuySuccessActivity" />
+        <activity
+            android:name=".my.mySold"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".my.myBought"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".my.FollowingListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".my.FollowersListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
+
+        <!-- 主活动 -->
+        <activity android:name=".Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- 支付宝支付完成后返回主活动（可选） -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="jianlou" />
+            </intent-filter>
+        </activity>
+
+        <!-- 商品发布活动 -->
+        <activity android:name=".publish.publishGood.PublishGoodClassification" />
+        <activity android:name=".publish.publishGood.PublishGoodMoney" />
+        <activity android:name=".publish.publishGood.PublishGoodActivity">
+            <intent-filter>
+                <action android:name="com.example.jianlou.PublishGoodActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--社区帖子发布活动-->
+        <activity android:name=".shequ.PublishPostType" />
+        <activity android:name=".shequ.PublishPostActivity"/>
+        <activity android:name=".shequ.PublishPostCommunity" />
+        <activity android:name=".shequ.PostDetailActivity" />
+
+        <!-- 支付宝SDK需要的meta-data -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
+        <!-- 支付宝SDK配置（可选） -->
+        <meta-data
+            android:name="com.alipay.sdk.app.Env"
+            android:value="sandbox" /> <!-- sandbox:沙箱环境，online:生产环境 -->
+
+    </application>
+
+</manifest>

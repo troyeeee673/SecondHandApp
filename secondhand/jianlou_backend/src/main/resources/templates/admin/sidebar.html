@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 侧边栏 -->
+<div th:fragment="sidebar(currentPage)">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-primary p-2 me-3">
+                    <i class="fas fa-user-shield" style="font-size: 24px;"></i>
+                </div>
+                <div>
+                    <h4 class="mb-1" style="font-weight: 600;">管理员后台</h4>
+                    <small class="text-muted">捡喽 管理系统</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/web/dashboard" th:classappend="${currentPage == 'dashboard'} ? 'active'">
+                        <i class="fas fa-chart-line"></i>
+                        <span>数据大屏</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/web/user-manage" th:classappend="${currentPage == 'user-manage'} ? 'active'">
+                        <i class="fas fa-users-cog"></i>
+                        <span>用户管理</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/web/goods-manage" th:classappend="${currentPage == 'goods-manage'} ? 'active'">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>商品管理</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/web/profile" th:classappend="${currentPage == 'profile'} ? 'active'">
+                        <i class="fas fa-user-cog"></i>
+                        <span>个人中心</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-4">
+                    <a class="nav-link" href="/admin/web/logout" style="color: #f87171;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>退出登录</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="position-absolute bottom-0 start-0 p-4 w-100">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-success p-2 me-3">
+                    <i class="fas fa-user" style="font-size: 18px;"></i>
+                </div>
+                <div>
+                    <div class="text-light small">当前登录</div>
+                    <div class="fw-bold">
+                        <span th:if="${admin != null and admin.account != null}" th:text="${admin.account}">管理员</span>
+                        <span th:if="${admin == null or admin.account == null}" class="text-warning">未登录</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

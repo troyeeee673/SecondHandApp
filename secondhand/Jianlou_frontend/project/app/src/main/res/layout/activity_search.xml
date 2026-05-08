@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".index.search">
+
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:src="@drawable/picture_back" />
+
+        <EditText
+            android:id="@+id/search_search"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_edittext_shape"
+            android:drawableStart="@mipmap/search_icon"
+            android:drawablePadding="5dp"
+            android:focusable="false"
+            android:hint="请输入关键字"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- 价格筛选区域 -->
+    <LinearLayout
+        android:id="@+id/price_filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="#f8f9fa"
+        android:elevation="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔍价格筛选"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/et_min_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="最低价"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:background="@drawable/search_edittext_shape"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="至"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="#666"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_max_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="最高价"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:background="@drawable/search_edittext_shape"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_price_filter"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:text="应用筛选"
+                android:background="@drawable/button_primary_shape"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_marginEnd="4dp" />
+
+            <Button
+                android:id="@+id/btn_clear_filter"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:text="清除筛选"
+                android:background="@drawable/button_secondary_shape"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_price_filter_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            android:textColor="#666"
+            android:layout_marginTop="6dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- 排序选项 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+
+        <RadioGroup
+            android:id="@+id/search_check"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <!-- 普通搜索的排序选项 -->
+            <RadioButton
+                android:id="@+id/search_check1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:checked="true"
+                android:textColor="@drawable/search_sort_select"
+                android:text="综合排序"/>
+
+            <RadioButton
+                android:id="@+id/search_check2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="@drawable/search_sort_select"
+                android:text="时间正序"/>
+
+            <RadioButton
+                android:id="@+id/search_check3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="@drawable/search_sort_select"
+                android:text="时间倒序"/>
+
+            <!-- 关键词搜索也添加价格排序选项 -->
+            <RadioButton
+                android:id="@+id/search_check4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="@drawable/search_sort_select"
+                android:text="价格升序"/>
+
+            <RadioButton
+                android:id="@+id/search_check5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="@drawable/search_sort_select"
+                android:text="价格降序"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/search_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"/>
+</LinearLayout>

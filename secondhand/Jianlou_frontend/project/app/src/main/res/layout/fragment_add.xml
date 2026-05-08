@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:background="#90FFFFFF"
+    android:gravity="bottom|center_horizontal" >
+
+    <TextView
+        android:id="@+id/publish_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:clickable="true"
+        android:drawableTop="@mipmap/publish_goods"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/publish_item_margin"
+        android:text="@string/fabuxianzhi"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/publish_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/publish_goods"
+        android:layout_marginStart="100dp"
+        android:clickable="true"
+        android:drawableTop="@mipmap/publish_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/publish_item_margin"
+        android:text="@string/fatiezi"
+        android:focusable="true" />
+
+
+    <ImageView
+        android:id="@+id/publish_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/publish_goods"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="20dp"
+        android:src="@mipmap/close" />
+
+</RelativeLayout>

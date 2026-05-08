@@ -1,0 +1,919 @@
+{
+  "code": 0,
+  "data": [
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "苹果",
+          "imgURL": "分类图片/手机/苹果.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "三星",
+          "imgURL": "分类图片/手机/三星.png",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "华为",
+          "imgURL": "分类图片/手机/华为.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "小米",
+          "imgURL": "分类图片/手机/小米.png",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "一加",
+          "imgURL": "分类图片/手机/一加.png",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "荣耀",
+          "imgURL": "分类图片/手机/荣耀.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690581646_JYRiS8rkdp.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "手机",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "柚子",
+          "imgURL": "分类图片/生鲜水果/柚子.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "梨",
+          "imgURL": "分类图片/生鲜水果/梨.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "橘子",
+          "imgURL": "分类图片/生鲜水果/橘子.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""},
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "苹果",
+          "imgURL": "分类图片/生鲜水果/苹果.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "葡萄",
+          "imgURL": "分类图片/生鲜水果/葡萄.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "西瓜",
+          "imgURL": "分类图片/生鲜水果/西瓜.jpg",
+          "linkType": "storeTags",
+          "linkParam": "西瓜",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690569496_jKyaBHe2Ze.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "生鲜水果",
+      "moreLinkType": "topic",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "植物大战僵尸",
+          "imgURL": "分类图片/游戏/植物大战僵尸.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "王者皮肤",
+          "imgURL": "分类图片/游戏/王者皮肤.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690549966_xbr3ACA38e.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "游戏",
+      "moreLinkType": "html",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "固态硬盘",
+          "imgURL": "分类图片/电子零件/固态硬盘.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "灯泡",
+          "imgURL": "分类图片/电子零件/灯泡.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "电池",
+          "imgURL": "分类图片/电子零件/电池.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "遥控器",
+          "imgURL": "分类图片/电子零件/遥控器.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690592572_6PcAjFFXEA.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "电子零件",
+      "moreLinkType": "userId",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "螺丝",
+          "imgURL": "分类图片/工具/螺丝.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "钳子",
+          "imgURL": "分类图片/工具/钳子.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690614300_5EZYEEGH3b.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "工具",
+      "moreLinkType": "channelId",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "四大名著",
+          "imgURL": "分类图片/图书/四大名著.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "言情小说",
+          "imgURL": "分类图片/图书/言情小说.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "图书",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "喜羊羊与灰太狼",
+          "imgURL": "分类图片/动漫周边/喜羊羊与灰太狼.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "熊出没",
+          "imgURL": "分类图片/动漫周边/熊出没.jpg",
+          "linkType": "channelId",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "动漫/周边",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "拉布拉多",
+          "imgURL": "分类图片/宠物用品/拉布拉多.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "柯基",
+          "imgURL": "分类图片/宠物用品/柯基.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "边牧",
+          "imgURL": "分类图片/宠物用品/边牧.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "金毛",
+          "imgURL": "分类图片/宠物用品/金毛.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "宠物/用品",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "电脑",
+          "imgURL": "分类图片/网络设备/电脑.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "鼠标",
+          "imgURL": "分类图片/网络设备/鼠标.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "网络设备",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "笔记本",
+          "imgURL": "分类图片/办公用品/笔记本.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "办公用品",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "游戏机",
+          "imgURL": "分类图片/游戏设备/游戏机.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "游戏设备",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "瑜伽垫",
+          "imgURL": "分类图片/运动户外/瑜伽垫.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "瑜伽服",
+          "imgURL": "分类图片/运动户外/瑜伽服.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "运动手表",
+          "imgURL": "分类图片/运动户外/运动手表.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "运动户外",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "口琴",
+          "imgURL": "分类图片/玩具乐器/口琴.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "吉他",
+          "imgURL": "分类图片/玩具乐器/吉他.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "葫芦丝",
+          "imgURL": "分类图片/玩具乐器/葫芦丝.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "钢琴",
+          "imgURL": "分类图片/玩具乐器/钢琴.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "玩具乐器",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "微波炉",
+          "imgURL": "分类图片/家用电器/微波炉.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "水壶",
+          "imgURL": "分类图片/家用电器/水壶.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "烤箱",
+          "imgURL": "分类图片/家用电器/烤箱.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "家用电器",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "头盔",
+          "imgURL": "分类图片/骑行用具/头盔.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "手套",
+          "imgURL": "分类图片/骑行用具/手套.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "骑行用具",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "充电器",
+          "imgURL": "分类图片/3C数码/充电器.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "插排",
+          "imgURL": "分类图片/3C数码/插排.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "耳机",
+          "imgURL": "分类图片/3C数码/耳机.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "3C数码",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "小卡",
+          "imgURL": "分类图片/音像/小卡.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "应援棒",
+          "imgURL": "分类图片/音像/应援棒.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "音像",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "景区门票",
+          "imgURL": "分类图片/门票/景区门票.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "音乐节门票",
+          "imgURL": "分类图片/门票/音乐节门票.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "门票",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "家居服",
+          "imgURL": "分类图片/居家日常/家居服.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        },
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "拖鞋",
+          "imgURL": "分类图片/居家日常/拖鞋.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "居家日用",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "扑克牌",
+          "imgURL": "分类图片/实体卡片/扑克牌.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "实体卡片",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    },
+
+    {
+      "type": "category",
+      "dataList": [
+        {
+          "id": "",
+          "desc": "",
+          "type": "category",
+          "title": "湿巾",
+          "imgURL": "分类图片/其他/湿巾.jpg",
+          "linkType": "storeTags",
+          "linkParam": "",
+          "online_time": "",
+          "offline_time": ""
+        }
+      ],
+      "moreIcon": "https://wicdn.xiaohongchun.com/xhc-plat/1499690623245_mY4ZRZMCF2.png",
+      "moreText": "",
+      "moduleStyle": "nothing",
+      "moduleTitle": "其他",
+      "moreLinkType": "storeTags",
+      "interfaceLink": "",
+      "moreLinkParam": "",
+      "moreTextDisplay": "true"
+    }
+  ]
+}

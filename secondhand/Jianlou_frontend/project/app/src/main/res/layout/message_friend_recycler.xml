@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 原有外层水平LinearLayout不变 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!-- 原有头像控件不变 -->
+    <ImageView
+        android:id="@+id/message_friend_head"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="5dp"
+        android:src="@mipmap/cat"/>
+
+    <!-- 新增：嵌套RelativeLayout（用于定位未读标记） -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <!-- 原有垂直LinearLayout，移入RelativeLayout中 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message_friend_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:text="捡喽用户刘某人"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/message_friend_message"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:text="你的节操掉了。。。。。"
+                android:textColor="@color/trans_bar_grey"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <!-- 新增：未读标记（右上角小红点） -->
+        <TextView
+            android:id="@+id/tv_unread_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/unread_bg"
+            android:gravity="center"
+            android:minWidth="18dp"
+            android:minHeight="18dp"
+            android:padding="2dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:visibility="gone"/> <!-- 默认隐藏 -->
+
+    </RelativeLayout>
+
+</LinearLayout>

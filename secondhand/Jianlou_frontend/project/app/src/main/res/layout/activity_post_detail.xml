@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/post_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:paddingHorizontal="15dp"
+            android:src="@drawable/back1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="帖子详情"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <!-- 作者信息区域 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/post_detail_photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/cat" />
+
+        <TextView
+            android:id="@+id/post_detail_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/post_detail_photo"
+            android:text="未知用户"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <!-- 帖子核心信息区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/post_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:text="帖子标题"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/post_detail_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="3dp"
+            android:background="@drawable/shape_tag"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="动态分享"
+            android:textColor="@color/btn_press_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/post_detail_community"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="3dp"
+            android:text="所属社区：未分类"
+            android:textColor="@color/divider"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/post_detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="帖子内容详情...\n这里展示帖子的完整内容，支持多行文本显示"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- 帖子图片轮播 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_detail_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp" />
+
+    <TextView
+        android:id="@+id/post_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发布于：2025-12-23 15:30:00"
+        android:textColor="@color/text_gray"
+        android:textSize="12sp" />
+
+    <!-- 加载进度条 -->
+    <ProgressBar
+        android:id="@+id/post_detail_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</LinearLayout>

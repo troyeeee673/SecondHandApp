@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #6b7280;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+        }
+
+        body {
+            background: #c5dcff;
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            background: #4155c6;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 280px;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin: 5px 15px;
+        }
+
+        .nav-link {
+            color: #cbd5e1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 24px;
+            font-size: 18px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pending { background: #fef3c7; color: #92400e; }
+        .approved { background: #d1fae5; color: #065f46; }
+        .rejected { background: #fee2e2; color: #991b1b; }
+        .banned { background: #e5e7eb; color: #374151; }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve { background: var(--success-color); color: white; }
+        .btn-reject { background: var(--danger-color); color: white; }
+        .btn-ban { background: var(--secondary-color); color: white; }
+
+        .btn-approve:hover { opacity: 0.9; transform: scale(1.05); }
+        .btn-reject:hover { opacity: 0.9; transform: scale(1.05); }
+        .btn-ban:hover { opacity: 0.9; transform: scale(1.05); }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stats-label {
+            color: var(--secondary-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-box {
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 引用admin/sidebar.html中的sidebar片段 -->
+<div th:replace="admin/sidebar :: sidebar(currentPage='user-manage')"></div>
+
+<!-- 主内容区 -->
+<div class="main-content">
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <div class="page-title">
+            <i class="fas fa-users-cog"></i>
+            <span>用户管理</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+            <input type="text" class="search-box" placeholder="搜索用户...">
+            <button class="btn btn-primary">
+                <i class="fas fa-search me-2"></i>搜索
+            </button>
+        </div>
+    </div>
+
+    <!-- 状态统计 -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number" th:text="${userList.size()}">0</div>
+                <div class="stats-label">总用户数</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number" th:text="${pendingCount}">0</div>
+                <div class="stats-label">待审核</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number" th:text="${approvedCount}">0</div>
+                <div class="stats-label">已通过</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number" th:text="${rejectedCount}">0</div>
+                <div class="stats-label">已拒绝</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 状态筛选 -->
+    <div class="mb-4">
+        <div class="btn-group" role="group">
+            <a href="/admin/web/user-manage?status=all"
+               class="btn btn-outline-primary"
+               th:classappend="${activeStatus == 'all'} ? 'active'">全部用户</a>
+            <a href="/admin/web/user-manage?status=pending"
+               class="btn btn-outline-warning"
+               th:classappend="${activeStatus == 'pending'} ? 'active'">待审核</a>
+            <a href="/admin/web/user-manage?status=approved"
+               class="btn btn-outline-success"
+               th:classappend="${activeStatus == 'approved'} ? 'active'">已通过</a>
+            <a href="/admin/web/user-manage?status=rejected"
+               class="btn btn-outline-danger"
+               th:classappend="${activeStatus == 'rejected'} ? 'active'">已拒绝</a>
+            <a href="/admin/web/user-manage?status=banned"
+               class="btn btn-outline-secondary"
+               th:classappend="${activeStatus == 'banned'} ? 'active'">已禁止</a>
+        </div>
+    </div>
+
+    <!-- 用户列表 -->
+    <div class="glass-card p-4">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>账号</th>
+                    <th>姓名</th>
+                    <th>用户类型</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user, stat : ${userList}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${user.account}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td>
+                                <span th:if="${user.userType == 'admin'}" class="badge bg-primary">
+                                    <i class="fas fa-user-shield me-1"></i>管理员
+                                </span>
+                        <span th:if="${user.userType == 'user'}" class="badge bg-secondary">
+                                    <i class="fas fa-user me-1"></i>普通用户
+                                </span>
+                    </td>
+                    <td>
+                                <span th:if="${user.userStatus == 'pending'}" class="badge pending">
+                                    待审核
+                                </span>
+                        <span th:if="${user.userStatus == 'approved'}" class="badge approved">
+                                    已通过
+                                </span>
+                        <span th:if="${user.userStatus == 'rejected'}" class="badge rejected">
+                                    已拒绝
+                                </span>
+                        <span th:if="${user.userStatus == 'banned'}" class="badge banned">
+                                    已禁止
+                                </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a th:href="@{/admin/web/user/updateStatus(account=${user.account}, status='approved')}"
+                               class="btn btn-success btn-sm">
+                                <i class="fas fa-check"></i> 通过
+                            </a>
+                            <a th:href="@{/admin/web/user/updateStatus(account=${user.account}, status='rejected')}"
+                               class="btn btn-danger btn-sm">
+                                <i class="fas fa-times"></i> 拒绝
+                            </a>
+                            <a th:href="@{/admin/web/user/updateStatus(account=${user.account}, status='banned')}"
+                               class="btn btn-secondary btn-sm">
+                                <i class="fas fa-ban"></i> 禁止
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- 无数据提示 -->
+            <div th:if="${#lists.isEmpty(userList)}" class="text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">暂无用户数据</h4>
+                <p class="text-muted">还没有用户注册或数据为空</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // 模糊搜索功能
+    document.querySelector('.search-box').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+
+    // 添加一些动画效果
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.user-card, .stats-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    });
+</script>
+</body>
+</html>

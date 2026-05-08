@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 选项卡：用户审核/商品审核 -->
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="#f5f5f5">
+
+        <RadioButton
+            android:id="@+id/rb_user_audit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="用户审核"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rb_goods_audit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="商品审核"/>
+    </RadioGroup>
+
+    <!-- 原有的筛选栏 -->
+    <RadioGroup
+        android:id="@+id/rg_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <RadioButton
+            android:id="@+id/rb_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全部用户"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rb_pending"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="待审核"/>
+
+        <RadioButton
+            android:id="@+id/rb_approved"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已通过"/>
+
+        <RadioButton
+            android:id="@+id/rb_rejected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已拒绝"/>
+
+        <RadioButton
+            android:id="@+id/rb_banned"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已禁止"/>
+    </RadioGroup>
+
+    <!-- 批量操作栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="#f5f5f5">
+
+        <CheckBox
+            android:id="@+id/cb_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全选"/>
+
+        <Button
+            android:id="@+id/btn_batch_approve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="批量通过"/>
+    </LinearLayout>
+
+    <!-- 核心修改：添加ListView（替代原来的FrameLayout），这是用户列表的容器 -->
+    <ListView
+        android:id="@+id/lv_users"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#f5f5f5"
+        android:dividerHeight="1dp"/>
+
+</LinearLayout>

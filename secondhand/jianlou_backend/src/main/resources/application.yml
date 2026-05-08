@@ -1,0 +1,78 @@
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+# Spring核心配置
+spring:
+  # 数据库配置（适配你的MySQL环境）
+  datasource:
+    url: jdbc:mysql://localhost:3306/jianlou?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 123456  # 保持你的MySQL密码不变
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # JPA配置（自动建表+SQL格式化）
+  jpa:
+    hibernate:
+      ddl-auto: update  # 开发环境用update，生产环境用none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect  # 适配MySQL8+
+    open-in-view: true
+  # 文件上传配置（适配前端多图上传）
+  servlet:
+    multipart:
+      enabled: true  # 开启文件上传
+      max-file-size: 10MB  # 单图片最大10M（和前端压缩匹配）
+      max-request-size: 50MB  # 总上传大小50M
+      file-size-threshold: 2KB  # 内存缓存阈值
+  # 跨域配置（放宽限制，适配前端虚拟机调试）
+  web:
+    cors:
+      allowed-origins: "*"  # 允许所有来源
+      allowed-methods: "*"  # 允许所有请求方法
+      allowed-headers: "*"  # 允许所有请求头
+      allow-credentials: true  # 允许携带cookie（关键）
+    # 静态资源映射（核心：让前端访问upload目录的图片）
+    resources:
+      static-locations: file:${user.dir}/upload/,file:${user.dir}/post_upload/,classpath:/static/  # 映射本地upload目录
+      mvc:
+        static-path-pattern: /upload/**
+      cache:
+        period: 0  # 关闭缓存，调试阶段避免图片缓存问题
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: /**
+
+# 自定义配置（和后端代码中的上传路径对应）
+upload:
+  path: ${user.dir}/upload/  # 绝对路径：项目根目录下的upload文件夹
+  # 前端访问图片的基础URL（和前端拼接的BACKEND_BASE_URL一致）
+  base-url: http://192.168.93.1:8080/
+
+# 用户等级配置（必须与spring平级）
+user:
+  level:
+    calculate-cron: "0 0 2 1 * ?"
+    credit-weight: 0.4
+    active-weight: 0.6
+    thresholds:
+      - name: "青铜"
+        min: 0
+        max: 60
+      - name: "白银"
+        min: 61
+        max: 80
+      - name: "黄金"
+        min: 81
+        max: 95
+      - name: "钻石"
+        min: 96
+        max: 100

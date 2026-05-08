@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: url('/img.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            overflow: hidden; /* 防止拖动时出现滚动条 */
+            cursor: grab; /* 默认光标 */
+        }
+
+        body:active {
+            cursor: grabbing; /* 拖动时光标 */
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            transition: all 0.2s ease; /* 平滑过渡 */
+            user-select: none; /* 防止文字被选中 */
+        }
+
+        /* 拖动时的样式 */
+        .login-card.dragging {
+            cursor: grabbing;
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(30, 144, 255, 0.3); /* 改为蓝色 */
+            transform: scale(1.01);
+        }
+
+        /* 拖动提示图标 */
+        .drag-handle {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+
+        .drag-handle:hover {
+            background: rgba(30, 144, 255, 0.3); /* 改为蓝色 */
+            width: 50px;
+        }
+
+        /* 双击重置按钮 */
+        .reset-position {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .login-card:hover .reset-position {
+            opacity: 1;
+        }
+
+        .reset-position:hover {
+            color: #1e90ff; /* 改为蓝色 */
+            background: rgba(30, 144, 255, 0.1); /* 改为蓝色 */
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 10px; /* 为拖动手柄留出空间 */
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #1e90ff, #0066cc); /* 改为蓝色渐变 */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 8px 16px rgba(30, 144, 255, 0.3); /* 改为蓝色阴影 */
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control:focus {
+            border-color: #1e90ff; /* 改为蓝色 */
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.15); /* 改为蓝色阴影 */
+            background: white;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, #1e90ff, #0066cc); /* 改为蓝色渐变 */
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(30, 144, 255, 0.3); /* 改为蓝色阴影 */
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(30, 144, 255, 0.4); /* 改为蓝色阴影 */
+        }
+
+        .btn-login:active {
+            transform: translateY(-1px);
+        }
+
+        .alert-danger {
+            border-radius: 10px;
+            border: none;
+            background: rgba(254, 226, 226, 0.95);
+            color: #991b1b;
+            animation: shake 0.5s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .input-group-text {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .text-muted {
+            color: #6b7280 !important;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 15px;
+            }
+
+            .login-card {
+                padding: 30px 25px;
+            }
+
+            .login-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+
+            .drag-handle {
+                width: 30px;
+            }
+
+            .drag-handle:hover {
+                width: 35px;
+            }
+        }
+
+        /* 增加玻璃态效果 */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+
+        /* 输入组聚焦效果 */
+        .input-group:focus-within .input-group-text {
+            border-color: #1e90ff; /* 改为蓝色 */
+            background-color: #f0f8ff; /* 改为浅蓝色背景 */
+        }
+    </style>
+</head>
+<body>
+<div class="login-container" id="loginContainer">
+    <div class="login-card" id="loginCard">
+        <!-- 拖动提示条 -->
+        <div class="drag-handle" id="dragHandle"></div>
+
+        <!-- 双击重置按钮 -->
+        <button class="reset-position" id="resetPosition" title="双击重置位置">
+            <i class="fas fa-undo-alt"></i>
+        </button>
+
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>管理员登录</h2>
+            <p class="text-muted">欢迎登录捡喽管理系统</p>
+        </div>
+
+        <!-- 错误提示 -->
+        <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <form th:action="@{/admin/web/login}" method="post">
+            <div class="mb-3">
+                <label class="form-label">管理员账号</label>
+                <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    <input type="text"
+                           name="account"
+                           class="form-control"
+                           placeholder="请输入管理员账号"
+                           required
+                           autofocus>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">密码</label>
+                <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="请输入密码"
+                           required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-login mb-3">
+                <i class="fas fa-sign-in-alt me-2"></i>登录系统
+            </button>
+
+            <div class="text-center">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle me-2"></i>
+                    请使用管理员账号登录
+                </small>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // 拖动功能实现
+    class DraggableLogin {
+        constructor() {
+            this.card = document.getElementById('loginCard');
+            this.container = document.getElementById('loginContainer');
+            this.dragHandle = document.getElementById('dragHandle');
+            this.resetBtn = document.getElementById('resetPosition');
+            this.isDragging = false;
+            this.startX = 0;
+            this.startY = 0;
+            this.startLeft = 0;
+            this.startTop = 0;
+
+            this.init();
+        }
+
+        init() {
+            // 初始化位置
+            this.container.style.position = 'fixed';
+            this.container.style.left = '50%';
+            this.container.style.top = '50%';
+            this.container.style.transform = 'translate(-50%, -50%)';
+
+            // 绑定事件
+            this.dragHandle.addEventListener('mousedown', this.startDrag.bind(this));
+            this.card.addEventListener('mousedown', this.startDrag.bind(this));
+            document.addEventListener('mousemove', this.drag.bind(this));
+            document.addEventListener('mouseup', this.stopDrag.bind(this));
+
+            // 双击重置按钮
+            this.resetBtn.addEventListener('click', this.resetPosition.bind(this));
+
+            // 双击卡片重置
+            this.card.addEventListener('dblclick', this.resetPosition.bind(this));
+
+            // 触摸屏支持
+            this.dragHandle.addEventListener('touchstart', this.startDragTouch.bind(this));
+            this.card.addEventListener('touchstart', this.startDragTouch.bind(this));
+            document.addEventListener('touchmove', this.dragTouch.bind(this));
+            document.addEventListener('touchend', this.stopDrag.bind(this));
+        }
+
+        startDrag(e) {
+            // 防止在输入框上拖动
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            this.isDragging = true;
+            this.card.classList.add('dragging');
+
+            // 获取起始位置
+            const rect = this.container.getBoundingClientRect();
+            this.startX = e.clientX;
+            this.startY = e.clientY;
+            this.startLeft = rect.left;
+            this.startTop = rect.top;
+
+            e.preventDefault();
+        }
+
+        startDragTouch(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            this.isDragging = true;
+            this.card.classList.add('dragging');
+
+            const touch = e.touches[0];
+            const rect = this.container.getBoundingClientRect();
+            this.startX = touch.clientX;
+            this.startY = touch.clientY;
+            this.startLeft = rect.left;
+            this.startTop = rect.top;
+
+            e.preventDefault();
+        }
+
+        drag(e) {
+            if (!this.isDragging) return;
+
+            // 计算移动距离
+            const dx = e.clientX - this.startX;
+            const dy = e.clientY - this.startY;
+
+            // 应用新位置（带边界限制）
+            this.setPosition(dx, dy);
+
+            e.preventDefault();
+        }
+
+        dragTouch(e) {
+            if (!this.isDragging) return;
+
+            const touch = e.touches[0];
+            const dx = touch.clientX - this.startX;
+            const dy = touch.clientY - this.startY;
+
+            this.setPosition(dx, dy);
+
+            e.preventDefault();
+        }
+
+        setPosition(dx, dy) {
+            // 计算新位置
+            let newLeft = this.startLeft + dx;
+            let newTop = this.startTop + dy;
+
+            // 获取窗口和卡片尺寸
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const cardWidth = this.container.offsetWidth;
+            const cardHeight = this.container.offsetHeight;
+
+            // 边界限制（防止拖出屏幕）
+            const padding = 20;
+            newLeft = Math.max(padding, Math.min(newLeft, windowWidth - cardWidth - padding));
+            newTop = Math.max(padding, Math.min(newTop, windowHeight - cardHeight - padding));
+
+            // 应用新位置
+            this.container.style.left = newLeft + 'px';
+            this.container.style.top = newTop + 'px';
+            this.container.style.transform = 'none';
+        }
+
+        stopDrag() {
+            if (this.isDragging) {
+                this.isDragging = false;
+                this.card.classList.remove('dragging');
+            }
+        }
+
+        resetPosition() {
+            // 平滑回到中心位置
+            this.container.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            this.container.style.left = '50%';
+            this.container.style.top = '50%';
+            this.container.style.transform = 'translate(-50%, -50%)';
+
+            // 移除过渡效果
+            setTimeout(() => {
+                this.container.style.transition = '';
+            }, 400);
+        }
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        const card = document.querySelector('.login-card');
+        card.style.animation = 'slideUp 0.6s ease';
+
+        // 初始化拖动功能
+        new DraggableLogin();
+    });
+
+    // 表单提交动画
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const btn = this.querySelector('button[type="submit"]');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>登录中...';
+        btn.disabled = true;
+    });
+
+    // 添加输入框焦点效果
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.querySelector('.input-group-text').style.borderColor = '#1e90ff'; /* 改为蓝色 */
+            this.parentElement.querySelector('.input-group-text').style.backgroundColor = '#f0f8ff'; /* 改为浅蓝色 */
+        });
+
+        input.addEventListener('blur', function() {
+            this.parentElement.querySelector('.input-group-text').style.borderColor = '#e2e8f0';
+            this.parentElement.querySelector('.input-group-text').style.backgroundColor = 'white';
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- 客户头像（与你的项目资源匹配，这里用默认ic_launcher） -->
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <!-- 客户消息气泡 -->
+    <TextView
+        android:id="@+id/msg_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:background="@drawable/chat_left_bg"
+        android:maxWidth="200dp"/>
+</LinearLayout>

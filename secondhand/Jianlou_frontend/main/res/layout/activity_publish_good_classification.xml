@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".publish.publishGood.PublishGoodClassification">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/PublishGoodClassify_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:src="@drawable/picture_back"/>
+
+        <TextView
+            android:id="@+id/PublishGoodClassify_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/fenlei"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/PublishGoodClassify_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/queren"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/checkbox1"
+            style="@style/select_style"
+            android:text="@string/shouji" />
+
+        <CheckBox
+            android:id="@+id/checkbox2"
+            style="@style/select_style"
+            android:text="@string/shengxianshuiguo" />
+
+        <CheckBox
+            android:id="@+id/checkbox3"
+            style="@style/select_style"
+            android:text="@string/youxi" />
+
+        <CheckBox
+            android:id="@+id/checkbox4"
+            style="@style/select_style"
+            android:text="@string/dianzilingjian" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/checkbox5"
+            style="@style/select_style"
+            android:text="@string/tushu" />
+
+        <CheckBox
+            android:id="@+id/checkbox6"
+            style="@style/select_style"
+            android:text="@string/dongmanzhoubian" />
+
+        <CheckBox
+            android:id="@+id/checkbox7"
+            style="@style/select_style"
+            android:text="@string/chongwuyongpin" />
+        <CheckBox
+            android:id="@+id/checkbox8"
+            style="@style/select_style"
+            android:text="@string/wangluoshebei" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/checkbox9"
+            style="@style/select_style"
+            android:text="@string/bangongyongpin" />
+
+        <CheckBox
+            android:id="@+id/checkbox10"
+            style="@style/select_style"
+            android:text="@string/youxishebei" />
+
+        <CheckBox
+            android:id="@+id/checkbox11"
+            style="@style/select_style"
+            android:text="@string/yundonghuwai" />
+        <CheckBox
+            android:id="@+id/checkbox12"
+            style="@style/select_style"
+            android:text="@string/wangjuyueqi" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/checkbox13"
+            style="@style/select_style"
+            android:text="@string/jiayongdianqi" />
+
+        <CheckBox
+            android:id="@+id/checkbox14"
+            style="@style/select_style"
+            android:text="@string/qixingyongju" />
+
+        <CheckBox
+            android:id="@+id/checkbox15"
+            style="@style/select_style"
+            android:text="@string/shuma" />
+        <CheckBox
+            android:id="@+id/checkbox16"
+            style="@style/select_style"
+            android:text="@string/yinxiang" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <CheckBox
+            android:id="@+id/checkbox17"
+            style="@style/select_style"
+            android:text="@string/menpiao" />
+
+        <CheckBox
+            android:id="@+id/checkbox18"
+            style="@style/select_style"
+            android:text="@string/jujiariyong" />
+
+        <CheckBox
+            android:id="@+id/checkbox19"
+            style="@style/select_style"
+            android:text="@string/shitikapian" />
+        <CheckBox
+            android:id="@+id/checkbox20"
+            style="@style/select_style"
+            android:text="@string/qita" />
+
+    </LinearLayout>
+
+</LinearLayout>
