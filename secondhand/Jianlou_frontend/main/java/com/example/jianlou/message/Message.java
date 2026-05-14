@@ -1,17 +1,15 @@
 package com.example.jianlou.message;
 
 public class Message {
-    /**
-     * 消息界面
-     */
     private int headID;
-    private String message,user_name,username;
+    private String message, user_name, username;
+    private String goodsId; // 新增
 
-    public Message(int headImageID,String string_message,String string_user_name,String username){
-        headID=headImageID;
-        message=string_message;
-        user_name=string_user_name;
-        this.username=username;
+    public Message(int headImageID, String string_message, String string_user_name, String username) {
+        headID = headImageID;
+        message = string_message;
+        user_name = string_user_name;
+        this.username = username;
     }
 
     public int getMessageHeadID() {
@@ -28,5 +26,13 @@ public class Message {
 
     public String geMessagetUsername() {
         return username;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
     }
 }

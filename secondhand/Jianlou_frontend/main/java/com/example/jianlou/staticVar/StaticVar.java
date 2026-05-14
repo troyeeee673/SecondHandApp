@@ -18,6 +18,7 @@ public class StaticVar {
     public static final String detailUrl=rootUrl+"/goods/detail/";
     public static final String imageUrl=rootUrl+"/image/";
     public static final String MyUrl=rootUrl+"/mygoods/";
+    public static final String wsUrl = "ws://193.168.1.100:8080/ws/chat"; // 替换为你的WebSocket服务器地址
     //存储键值对的键
     public static String fileName="session";
     public static String fileCookiename="cookie";
