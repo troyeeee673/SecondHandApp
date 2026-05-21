@@ -21,6 +21,7 @@ public class StaticVar {
     public static final String detailUrl = rootUrl + "/goods/detail/";
     public static final String MyUrl = rootUrl + "/mygoods/";
     public static final String BaseUrl = "http://192.168.34.31:8080";
+    public static final String wsUrl = "ws://192.168.34.31:8080/ws/chat";
 
     public static String fileName = "session";
     public static String fileCookiename = "cookie";

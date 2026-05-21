@@ -4,11 +4,14 @@ package com.example.jianlou.message;
 import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +32,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         ImageView head;
         TextView message, user_name;
-        TextView tvUnreadCount; // 新增：未读标记控件
         View messageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -37,7 +39,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             head = itemView.findViewById(R.id.message_friend_head);
             user_name = itemView.findViewById(R.id.message_friend_user_name);
             message = itemView.findViewById(R.id.message_friend_message);
-            tvUnreadCount = itemView.findViewById(R.id.tv_unread_count); // 绑定未读控件
             messageView = itemView;
             messageView.setOnCreateContextMenuListener(this);
         }
@@ -55,7 +56,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_friend_recycler, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.messageView.setOnTouchListener(new View.OnTouchListener() {
@@ -72,18 +73,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         Intent intent=new Intent(v.getContext(),chat.class);
                         intent.putExtra("username",message.geMessagetUsername());
                         intent.putExtra("friend_name",message.getMessageUser_name());
-                        // 传递goodsId参数
                         intent.putExtra("goodsId", message.getGoodsId());
-
-                        // 进入聊天界面时，保存已读时间戳，清零未读数量
-                        String friendUsername = message.geMessagetUsername();
-                        String goodsId = message.getGoodsId();
-                        String lastMsgTime = message.getLastMsgTime();
-
-                        ((message_friend)v.getContext()).saveReadTime(friendUsername, goodsId, lastMsgTime);
-                        message.setUnreadCount(0);
-                        notifyItemChanged(position); // 刷新当前项
-
                         v.getContext().startActivity(intent);
                     }
                 }
@@ -108,38 +98,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
      * 修改空间的显示的
      */
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
         Message message = mmessageList.get(position);
-        String headUrl = message.getMessageHeadUrl();
-        int unreadCount = message.getUnreadCount(); // 获取未读数量
-
-        // 加载头像：有效URL加载网络图片，无效显示默认头像
-        boolean isHeadValid = (headUrl != null && !headUrl.trim().isEmpty());
-        if (isHeadValid) {
-            Picasso.get()
-                    .load(headUrl)
-                    .transform(new CircleTransform())
-                    .placeholder(R.mipmap.cat)
-                    .error(R.mipmap.cat)
-                    .into(holder.head);
-        } else {
-            Picasso.get()
-                    .load(R.mipmap.cat)
-                    .transform(new CircleTransform())
-                    .into(holder.head);
-        }
-
+        Picasso.get().load(message.getMessageHeadID()).transform(new CircleTransform()).into(holder.head);
         holder.message.setText(message.getMessageMessage());
         holder.user_name.setText(message.getMessageUser_name());
-
-        // 新增：未读标记显示逻辑
-        if (unreadCount > 0) {
-            holder.tvUnreadCount.setVisibility(View.VISIBLE);
-            // 未读数超过99显示“99+”，否则显示具体数字
-            holder.tvUnreadCount.setText(unreadCount > 99 ? "99+" : String.valueOf(unreadCount));
-        } else {
-            holder.tvUnreadCount.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -163,6 +126,4 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void setPosition(int position) {
         this.position = position;
     }
-
-
 }

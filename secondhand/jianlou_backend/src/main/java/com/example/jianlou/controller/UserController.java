@@ -24,7 +24,7 @@ public class UserController {
     @Resource
     private EncryptUtil encryptUtil;
 
-    private static final String ROOT_URL = "http://192.168.34.31:8080";
+    private static final String ROOT_URL = "http://192.168.117.31:8080";
 
     // 注册接口
     @PostMapping("/register/")

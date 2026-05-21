@@ -1,11 +1,13 @@
 package com.example.jianlou.message;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,455 +17,259 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.jianlou.Internet.HttpUtil;
 import com.example.jianlou.R;
-import com.example.jianlou.Util.TimeUtil;
 import com.example.jianlou.staticVar.StaticVar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Locale;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+public class chat extends AppCompatActivity implements View.OnClickListener, WebSocketManager.MessageListener {
 
-/*聊天实现界面*/
-public class chat extends AppCompatActivity implements View.OnClickListener {
-
-    // 核心UI控件
     private List<Msg> msgList = new ArrayList<>();
-    private ImageView chat_back, chat_reload;
-    private TextView chat_friend_name;
-    private EditText chat_message;
-    private Button chat_send;
-    private RecyclerView chat_recycler_view;
-    private MSgAdapter msgAdapter;
-    private ProgressBar chat_bar;
-
-    // 业务参数
-    private String targetUsername;    // 客户账号
-    private String currentUserAccount;// 商家账号
-    private String currentUserHeadUrl;// 当前用户头像URL
-    private String goodsId;           // 当前聊天商品ID
-    private String lastMsgTime = "";  // 最后一条消息时间戳
-
-    // 定时拉取任务
-    private Timer timer;
-    private TimerTask timerTask;
-    private Handler handler = new Handler();
-    private boolean isTimerRunning = true;
+    private ImageView back, reload;
+    private TextView friend_name;
+    private EditText message;
+    private Button send;
+    private RecyclerView recyclerView;
+    private MSgAdapter adapter;
+    private String username;
+    private String goodsId; // 新增：商品ID
+    private ProgressBar progressBar;
+    private String nowtime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        // 先加载用户信息（确保account最新）
-        StaticVar.loadUserInfo(this);
-
-        // 初始化基础参数（登录+商品/用户信息）
-        if (!initBaseParams()) {
-            finish();
-            return;
-        }
-
-        // 初始化UI控件
-        initView();
-
-        // 加载该商品的所有聊天记录
-        loadAllMessages();
-
-        // 启动定时拉取新消息
-        startTimerTask();
+        init();
     }
 
-    /**
-     * 初始化基础参数（校验登录+解析跳转参数）
-     */
-    private boolean initBaseParams() {
-        // 校验登录状态
-        if (StaticVar.cookie.isEmpty()) {
-            Toast.makeText(this, "未登录，请先登录", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+    private void init() {
+        back = findViewById(R.id.chat_back);
+        friend_name = findViewById(R.id.chat_friend_name);
+        message = findViewById(R.id.chat_message);
+        send = findViewById(R.id.chat_send);
+        reload = findViewById(R.id.chat_reload);
+        progressBar = findViewById(R.id.chat_bar);
 
-        // 解析跳转参数
+        reload.setOnClickListener(this);
+        back.setOnClickListener(this);
+        send.setOnClickListener(this);
+
         Intent intent = getIntent();
-        if (intent == null) {
-            Toast.makeText(this, "跳转参数错误", Toast.LENGTH_SHORT).show();
-            return false;
+        username = intent.getStringExtra("username");
+        goodsId = intent.getStringExtra("goodsId"); // 获取商品ID
+        friend_name.setText(intent.getStringExtra("friend_name"));
+
+        // 加载本地缓存消息
+        List<ChatMessage> chatMessages = DataSupport.select("content", "type")
+                .where("sender=?", username).order("time").find(ChatMessage.class);
+        for (ChatMessage chatMessage : chatMessages) {
+            msgList.add(new Msg(chatMessage.getContent(), chatMessage.getType(), R.mipmap.cat));
         }
 
-        targetUsername = intent.getStringExtra("username");
-        goodsId = intent.getStringExtra("goodsId");
-        String friendName = intent.getStringExtra("friend_name");
-
-        // 校验参数完整性
-        if (targetUsername == null || targetUsername.isEmpty() || goodsId == null || goodsId.isEmpty()) {
-            Toast.makeText(this, "缺少聊天对象/商品信息", Toast.LENGTH_SHORT).show();
-            return false;
+        if (msgList.size() == 0) {
+            nowtime = "";
+        } else {
+            List<ChatMessage> lastMsgs = DataSupport.select("time")
+                    .where("sender=?", username).order("time desc").find(ChatMessage.class);
+            if (lastMsgs.size() > 0) {
+                nowtime = lastMsgs.get(0).getTime();
+            }
         }
 
-        // 直接从StaticVar获取账号和头像
-        currentUserAccount = StaticVar.account;
-        currentUserHeadUrl = StaticVar.headUrl;
-        if (currentUserAccount.isEmpty()) {
-            currentUserAccount = "unknown";
-        }
-
-        // 调试信息
-        System.out.println("当前商家账号: " + currentUserAccount);
-        System.out.println("客户账号: " + targetUsername);
-        System.out.println("商品ID: " + goodsId);
-
-        return true;
-    }
-
-
-    /**
-     * 初始化UI控件+绑定事件
-     */
-    private void initView() {
-        // 绑定控件
-        chat_back = findViewById(R.id.chat_back);
-        chat_reload = findViewById(R.id.chat_reload);
-        chat_friend_name = findViewById(R.id.chat_friend_name);
-        chat_message = findViewById(R.id.chat_message);
-        chat_send = findViewById(R.id.chat_send);
-        chat_bar = findViewById(R.id.chat_bar);
-        chat_recycler_view = findViewById(R.id.chat_recycler_view);
-
-        // 设置点击事件
-        chat_back.setOnClickListener(this);
-        chat_reload.setOnClickListener(this);
-        chat_send.setOnClickListener(this);
-
-        // 设置客户昵称
-        String friendName = getIntent().getStringExtra("friend_name");
-        chat_friend_name.setText(friendName == null ? targetUsername : friendName);
-
-        // 初始化消息列表
+        recyclerView = findViewById(R.id.chat_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
-        chat_recycler_view.setLayoutManager(layoutManager);
-        msgAdapter = new MSgAdapter(msgList);
-        chat_recycler_view.setAdapter(msgAdapter);
+        recyclerView.setLayoutManager(layoutManager);
 
-        // 滑动隐藏软键盘
-        chat_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        adapter = new MSgAdapter(msgList);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    hideSoftInput();
-                }
-            }
-        });
-    }
-
-    /**
-     * 加载该商品的所有聊天记录
-     */
-    private void loadAllMessages() {
-        chat_bar.setVisibility(View.VISIBLE);
-
-        RequestBody requestBody = new FormBody.Builder()
-                .add("cookie", StaticVar.cookie)
-                .add("Username", targetUsername)
-                .add("goodsId", goodsId)
-                .add("time", "")
-                .build();
-
-        HttpUtil.sendOkHttpRequest(StaticVar.chatUrl, requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> {
-                    chat_bar.setVisibility(View.GONE);
-                    Toast.makeText(chat.this, "加载消息失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                runOnUiThread(() -> chat_bar.setVisibility(View.GONE));
-
-                if (response.isSuccessful() && response.body() != null) {
-                    String responseData = response.body().string();
-                    parseMessageResponse(responseData, true);
-                    // 全量加载后立即标记已读
-                    markCurrentSessionAsRead();
-                } else {
-                    runOnUiThread(() -> Toast.makeText(chat.this, "加载消息失败：服务器错误", Toast.LENGTH_SHORT).show());
-                }
-            }
-        });
-    }
-
-    /**
-     * 加载增量消息（最后一条之后的新消息）
-     */
-    private void loadNewMessages() {
-        if (lastMsgTime.isEmpty()) return;
-
-        RequestBody requestBody = new FormBody.Builder()
-                .add("cookie", StaticVar.cookie)
-                .add("Username", targetUsername)
-                .add("goodsId", goodsId)
-                .add("time", lastMsgTime)
-                .build();
-
-        HttpUtil.sendOkHttpRequest(StaticVar.chatUrl, requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {}
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful() && response.body() != null) {
-                    String responseData = response.body().string();
-                    parseMessageResponse(responseData, false);
-                    // 增量加载新消息后，立即标记已读（当前界面已查看）
-                    markCurrentSessionAsRead();
-                }
-            }
-        });
-    }
-
-    /**
-     * 解析后端返回的消息数据
-     */
-    private void parseMessageResponse(String responseData, boolean isRefreshAll) {
-        try {
-            JSONArray jsonArray = new JSONArray(responseData);
-            if (jsonArray.length() == 0) return;
-
-            // 全量刷新时清空列表
-            if (isRefreshAll) {
-                runOnUiThread(() -> msgList.clear());
-            }
-
-            // 记录上一条消息的时间戳
-            String lastMsgTimeStamp = "";
-            // 获取当前列表最后一条消息的时间（增量刷新时使用）
-            if (!isRefreshAll && !msgList.isEmpty()) {
-                lastMsgTimeStamp = msgList.get(msgList.size() - 1).getSendTime();
-            }
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String sender = jsonObject.getString("sender");
-                String content = jsonObject.getString("message");
-                String sendTime = jsonObject.getString("send_time");
-                String senderHeadUrl = jsonObject.optString("user_head", "");
-
-                lastMsgTime = sendTime; // 更新最后一条消息时间戳
-
-                // 1. 判断是否需要插入时间戳
-                boolean needShowTime = TimeUtil.isOver2Minutes(lastMsgTimeStamp, sendTime);
-                if (needShowTime) {
-                    // 格式化时间
-                    String formatTime = TimeUtil.formatTime(sendTime);
-                    // 插入时间戳消息
-                    Msg timeMsg = new Msg(formatTime, sendTime);
-                    runOnUiThread(() -> {
-                        msgList.add(timeMsg);
-                    });
-                }
-
-                // 2. 构建并添加当前消息
-                int msgType = sender.equals(currentUserAccount) ? Msg.TYPE_SEND : Msg.TYPE_RECEIVED;
-                String targetHeadUrl = (msgType == Msg.TYPE_SEND) ? currentUserHeadUrl : senderHeadUrl;
-                Msg msg = new Msg(content, msgType, targetHeadUrl, sendTime);
-
-                runOnUiThread(() -> {
-                    msgList.add(msg);
-                    msgAdapter.notifyDataSetChanged();
-                    chat_recycler_view.scrollToPosition(msgList.size() - 1);
-                });
-
-                // 3. 更新上一条消息时间戳
-                lastMsgTimeStamp = sendTime;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            runOnUiThread(() -> Toast.makeText(chat.this, "解析消息失败", Toast.LENGTH_SHORT).show());
-        }
-    }
-
-    /**
-     * 发送消息到后端
-     */
-    private void sendMessage() {
-        String content = chat_message.getText().toString().trim();
-        if (content.isEmpty()) {
-            Toast.makeText(this, "消息内容不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // 1. 本地生成当前时间戳
-        String currentTimeStamp = String.valueOf(System.currentTimeMillis());
-        // 2. 判断是否需要插入时间戳
-        String lastTime = "";
-        if (!msgList.isEmpty()) {
-            lastTime = msgList.get(msgList.size() - 1).getSendTime();
-        }
-        boolean needShowTime = TimeUtil.isOver2Minutes(lastTime, currentTimeStamp);
-        // 记录是否插入了时间戳（用于失败回滚）
-        final boolean finalNeedShowTime = needShowTime;
-
-        if (needShowTime) {
-            String formatTime = TimeUtil.formatTime(currentTimeStamp);
-            Msg timeMsg = new Msg(formatTime, currentTimeStamp);
-            msgList.add(timeMsg);
-        }
-        // 3. 插入本地发送消息（先显示，提升体验）
-        Msg sendMsg = new Msg(content, Msg.TYPE_SEND, currentUserHeadUrl, currentTimeStamp);
-        msgList.add(sendMsg);
-        msgAdapter.notifyDataSetChanged();
-        chat_recycler_view.scrollToPosition(msgList.size() - 1);
-
-        // 4. 后续网络请求逻辑（原有代码不变，仅删除loadNewMessages()）
-        RequestBody requestBody = new FormBody.Builder()
-                .add("cookie", StaticVar.cookie)
-                .add("Username", targetUsername)
-                .add("message", content)
-                .add("goodsId", goodsId)
-                .add("sendTime", currentTimeStamp) // 传递本地时间戳给后端
-                .build();
-
-        chat_bar.setVisibility(View.VISIBLE);
-        HttpUtil.sendOkHttpRequest(StaticVar.pushUrl, requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> {
-                    chat_bar.setVisibility(View.GONE);
-                    Toast.makeText(chat.this, "发送失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    // 失败时移除本地插入的消息
-                    msgList.remove(msgList.size() - 1);
-                    if (finalNeedShowTime) {
-                        msgList.remove(msgList.size() - 1);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
                     }
-                    msgAdapter.notifyDataSetChanged();
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                runOnUiThread(() -> chat_bar.setVisibility(View.GONE));
-
-                if (response.isSuccessful() && response.body() != null) {
-                    String result = response.body().string();
-                    runOnUiThread(() -> {
-                        if (result.contains("success")) {
-                            chat_message.setText("");
-                            Toast.makeText(chat.this, "发送成功", Toast.LENGTH_SHORT).show();
-                            // 优化：更新lastMsgTime，避免定时任务重复拉取
-                            lastMsgTime = currentTimeStamp;
-                            // 发送消息后标记已读
-                            markCurrentSessionAsRead();
-                        } else {
-                            Toast.makeText(chat.this, "发送失败：" + result, Toast.LENGTH_SHORT).show();
-                            // 失败时移除本地插入的消息
-                            msgList.remove(msgList.size() - 1);
-                            if (finalNeedShowTime) {
-                                msgList.remove(msgList.size() - 1);
-                            }
-                            msgAdapter.notifyDataSetChanged();
-                        }
-                    });
-                } else {
-                    runOnUiThread(() -> {
-                        Toast.makeText(chat.this, "发送失败：服务器错误", Toast.LENGTH_SHORT).show();
-                        // 失败时移除本地插入的消息
-                        msgList.remove(msgList.size() - 1);
-                        if (finalNeedShowTime) {
-                            msgList.remove(msgList.size() - 1);
-                        }
-                        msgAdapter.notifyDataSetChanged();
-                    });
                 }
             }
         });
-    }
 
-    /**
-     * 启动定时拉取任务
-     */
-    private void startTimerTask() {
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                if (isTimerRunning) {
-                    handler.post(chat.this::loadNewMessages);
-                }
-            }
-        };
-        timer.schedule(timerTask, 1000, 5000);
-    }
+        // 注册WebSocket监听
+        WebSocketManager.getInstance().addListener(this);
 
-    /**
-     * 隐藏软键盘
-     */
-    private void hideSoftInput() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-        }
-    }
-
-    /**
-     * 标记当前会话为已读（保存最新lastMsgTime到SP）
-     */
-    private void markCurrentSessionAsRead() {
-        if (TextUtils.isEmpty(targetUsername) || TextUtils.isEmpty(goodsId) || TextUtils.isEmpty(lastMsgTime)) {
-            return;
-        }
-        // 直接操作SharedPreferences，无需强转上下文
-        SharedPreferences sp = getSharedPreferences("chat_read_status", Context.MODE_PRIVATE);
-        String sessionKey = targetUsername + "_" + goodsId;
-        sp.edit().putString(sessionKey, lastMsgTime).apply();
-        System.out.println("标记已读：会话Key=" + sessionKey + "，已读时间=" + lastMsgTime);
-    }
-
-    /**
-     * 点击事件处理
-     */
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.chat_back) {
-            isTimerRunning = false;
-            // 退出前再次标记已读，确保最新消息被记录
-            markCurrentSessionAsRead();
-            finish();
-        } else if (id == R.id.chat_send) {
-            sendMessage();
-        } else if (id == R.id.chat_reload) {
-            loadAllMessages();
+        // 通过WebSocket拉取历史消息
+        if (WebSocketManager.getInstance().isConnected()) {
+            WebSocketManager.getInstance().pullHistoryMessages(username, goodsId, nowtime);
+        } else {
+            // 如果WebSocket未连接，先连接
+            WebSocketManager.getInstance().connect();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        isTimerRunning = false;
-        if (timer != null) timer.cancel();
-        if (timerTask != null) timerTask.cancel();
-        handler.removeCallbacksAndMessages(null);
-        // 销毁前最终标记已读
-        markCurrentSessionAsRead();
+        WebSocketManager.getInstance().removeListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.chat_back:
+                finish();
+                break;
+            case R.id.chat_send:
+                sendMessage();
+                break;
+            case R.id.chat_reload:
+                if (WebSocketManager.getInstance().isConnected()) {
+                    WebSocketManager.getInstance().pullHistoryMessages(username, goodsId, nowtime);
+                }
+                break;
+        }
+    }
+
+    private void sendMessage() {
+        String content = message.getText().toString().trim();
+        if (content.isEmpty()) return;
+
+        if (!WebSocketManager.getInstance().isConnected()) {
+            Toast.makeText(this, "连接已断开，请重试", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String sendTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        // 通过WebSocket发送消息
+        WebSocketManager.getInstance().sendChatMessage(username, content, goodsId, sendTime);
+
+        // 本地先显示消息（乐观更新）
+        Msg msg = new Msg(content, Msg.TYPE_SEND, R.mipmap.cat);
+        msgList.add(msg);
+        adapter.notifyItemInserted(msgList.size() - 1);
+        recyclerView.scrollToPosition(msgList.size() - 1);
+        message.setText("");
+
+        // 保存到本地数据库
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setContent(content);
+        chatMessage.setType(Msg.TYPE_SEND);
+        chatMessage.setTime(sendTime);
+        chatMessage.setSender(StaticVar.username); // 当前登录用户
+        chatMessage.save();
+    }
+
+    // ============ WebSocket回调 ============
+
+    @Override
+    public void onConnected() {
+        runOnUiThread(() -> {
+            Toast.makeText(chat.this, "已连接到消息服务", Toast.LENGTH_SHORT).show();
+            // 连接成功后拉取历史消息
+            WebSocketManager.getInstance().pullHistoryMessages(username, goodsId, nowtime);
+        });
+    }
+
+    @Override
+    public void onNewMessage(JSONObject messageJson) {
+        try {
+            String sender = messageJson.getString("sender");
+            String content = messageJson.getString("message");
+            String sendTime = messageJson.getString("sendTime");
+            String msgGoodsId = messageJson.getString("goodsId");
+
+            // 只处理当前商品的消息
+            if (!msgGoodsId.equals(goodsId)) return;
+
+            if (sender.equals(username)) {
+                // 收到当前聊天对象的消息
+                nowtime = sendTime;
+                Msg msg = new Msg(content, Msg.TYPE_RECEIVED, R.mipmap.cat);
+                msgList.add(msg);
+
+                // 保存到本地
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setContent(content);
+                chatMessage.setType(Msg.TYPE_RECEIVED);
+                chatMessage.setTime(sendTime);
+                chatMessage.setSender(sender);
+                chatMessage.save();
+
+                runOnUiThread(() -> {
+                    adapter.notifyItemInserted(msgList.size() - 1);
+                    recyclerView.scrollToPosition(msgList.size() - 1);
+                });
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onHistoryMessages(JSONArray messages) {
+        try {
+            // 清空现有列表，用服务器数据重建
+            msgList.clear();
+            for (int i = 0; i < messages.length(); i++) {
+                JSONObject json = messages.getJSONObject(i);
+                String sender = json.getString("sender");
+                String content = json.getString("message");
+                String sendTime = json.getString("send_time");
+
+                nowtime = sendTime;
+
+                int type = sender.equals(StaticVar.username) ? Msg.TYPE_SEND : Msg.TYPE_RECEIVED;
+                msgList.add(new Msg(content, type, R.mipmap.cat));
+            }
+
+            runOnUiThread(() -> {
+                adapter = new MSgAdapter(msgList);
+                recyclerView.setAdapter(adapter);
+                if (msgList.size() > 0) {
+                    recyclerView.scrollToPosition(msgList.size() - 1);
+                }
+                progressBar.setVisibility(View.GONE);
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onConversationList(JSONArray conversations) {
+        // 聊天页面不需要处理会话列表
+    }
+
+    @Override
+    public void onSendAck(String sendTime, String status) {
+        // 消息发送确认，可以更新本地消息状态
+    }
+
+    @Override
+    public void onDisconnected() {
+        runOnUiThread(() -> {
+            Toast.makeText(chat.this, "消息服务已断开", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    @Override
+    public void onError(String error) {
+        runOnUiThread(() -> {
+            Toast.makeText(chat.this, "连接错误: " + error, Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        });
+    }
 }

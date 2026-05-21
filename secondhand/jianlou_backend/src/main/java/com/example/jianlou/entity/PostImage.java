@@ -29,7 +29,7 @@ public class PostImage {
     private String imagePath;
 
     /**
-     * 图片访问URL（完整路径，如：http://192.168.34.31:8080/upload/post/f5136cc3/xxx.jpeg）
+     * 图片访问URL（完整路径，如：http://192.168.117.31:8080/upload/post/f5136cc3/xxx.jpeg）
      */
     @Column(name = "image_url")
     private String imageUrl;
