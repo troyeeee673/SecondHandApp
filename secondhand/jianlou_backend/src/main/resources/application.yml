@@ -55,7 +55,7 @@ spring:
 upload:
   path: ${user.dir}/upload/  # 绝对路径：项目根目录下的upload文件夹
   # 前端访问图片的基础URL（和前端拼接的BACKEND_BASE_URL一致）
-  base-url: http://192.168.93.1:8080/
+  base-url: http://192.168.34.31:8080/
 
 # 用户等级配置（必须与spring平级）
 user:

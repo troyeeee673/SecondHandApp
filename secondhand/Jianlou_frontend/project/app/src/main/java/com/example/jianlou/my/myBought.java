@@ -41,7 +41,7 @@ public class myBought extends AppCompatActivity implements View.OnClickListener 
     private BoughtAdapter boughtAdapter;
     private boolean isLoading = false;
 
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
     private static final String MY_BOUGHT_URL = BACKEND_BASE_URL + "/orders/my_bought/";
     private static final String COMPLETE_ORDER_URL = BACKEND_BASE_URL + "/orders/complete/";
     private static final String RETURN_ORDER_URL = BACKEND_BASE_URL + "/orders/return/";

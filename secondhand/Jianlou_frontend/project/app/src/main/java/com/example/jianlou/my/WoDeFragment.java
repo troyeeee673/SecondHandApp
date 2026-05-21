@@ -61,7 +61,7 @@ public class WoDeFragment extends Fragment implements View.OnClickListener {
     private View progressBar;
 
     private static final String TAG = "WoDeFragment";
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
     private static final String USER_LEVEL_API = BACKEND_BASE_URL + "/api/user-level/";
     // ========== 新增：用户统计信息API ==========
     private static final String USER_STATS_API = BACKEND_BASE_URL + "/user/stats/";

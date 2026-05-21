@@ -240,11 +240,11 @@ public class GoodsController {
             if (images != null && !images.isEmpty()) {
                 String imagePath = images.get(0).getImage();
                 if (imagePath.startsWith("/upload/")) {
-                    goodsMap.put("image", "http://192.168.93.1:8080" + imagePath);
+                    goodsMap.put("image", "http://192.168.34.31:8080" + imagePath);
                 } else if (imagePath.startsWith("http")) {
                     goodsMap.put("image", imagePath);
                 } else {
-                    goodsMap.put("image", "http://192.168.93.1:8080/upload/" + imagePath);
+                    goodsMap.put("image", "http://192.168.34.31:8080/upload/" + imagePath);
                 }
             } else {
                 goodsMap.put("image", "");
@@ -332,11 +332,11 @@ public class GoodsController {
                 if (images != null && !images.isEmpty()) {
                     String imagePath = images.get(0).getImage();
                     if (imagePath.startsWith("/upload/")) {
-                        goodsMap.put("image", "http://192.168.93.1:8080" + imagePath);
+                        goodsMap.put("image", "http://192.168.34.31:8080" + imagePath);
                     } else if (imagePath.startsWith("http")) {
                         goodsMap.put("image", imagePath);
                     } else {
-                        goodsMap.put("image", "http://192.168.93.1:8080/upload/" + imagePath);
+                        goodsMap.put("image", "http://192.168.34.31:8080/upload/" + imagePath);
                     }
                 } else {
                     goodsMap.put("image", "");
@@ -474,7 +474,7 @@ public class GoodsController {
                     List<GoodsImage> images = goodsImageRepository.findByGoods(goods);
                     String imgUrl = (images != null && !images.isEmpty()) ? images.get(0).getImage() : "";
                     if (!imgUrl.isEmpty()) {
-                        goodsMap.put("image", imgUrl.startsWith("/upload/") ? "http://192.168.93.1:8080" + imgUrl : "http://192.168.93.1:8080/upload/" + imgUrl);
+                        goodsMap.put("image", imgUrl.startsWith("/upload/") ? "http://192.168.34.31:8080" + imgUrl : "http://192.168.34.31:8080/upload/" + imgUrl);
                     } else {
                         goodsMap.put("image", "");
                     }
@@ -571,7 +571,7 @@ public class GoodsController {
                     List<GoodsImage> images = goodsImageRepository.findByGoods(goods);
                     String imgUrl = (images != null && !images.isEmpty()) ? images.get(0).getImage() : "";
                     if (!imgUrl.isEmpty()) {
-                        goodsMap.put("image", "http://192.168.93.1:8080" + (imgUrl.startsWith("/upload/") ? imgUrl : "/upload/" + imgUrl));
+                        goodsMap.put("image", "http://192.168.34.31:8080" + (imgUrl.startsWith("/upload/") ? imgUrl : "/upload/" + imgUrl));
                     } else {
                         goodsMap.put("image", "");
                     }
@@ -879,11 +879,11 @@ public class GoodsController {
                                 if (firstImage != null && firstImage.getImage() != null) {
                                     String imagePath = firstImage.getImage();
                                     if (imagePath.startsWith("/upload/")) {
-                                        imageUrl = "http://192.168.93.1:8080" + imagePath;
+                                        imageUrl = "http://192.168.34.31:8080" + imagePath;
                                     } else if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
                                         imageUrl = imagePath;
                                     } else {
-                                        imageUrl = "http://192.168.93.1:8080/upload/" + imagePath;
+                                        imageUrl = "http://192.168.34.31:8080/upload/" + imagePath;
                                     }
                                 }
                             }
@@ -1017,9 +1017,9 @@ public class GoodsController {
                     if (images != null && !images.isEmpty()) {
                         String imagePath = images.get(0).getImage();
                         if (imagePath.startsWith("/upload/")) {
-                            orderObj.put("goods_image", "http://192.168.93.1:8080" + imagePath);
+                            orderObj.put("goods_image", "http://192.168.34.31:8080" + imagePath);
                         } else {
-                            orderObj.put("goods_image", "http://192.168.93.1:8080/upload/" + imagePath);
+                            orderObj.put("goods_image", "http://192.168.34.31:8080/upload/" + imagePath);
                         }
                     } else {
                         orderObj.put("goods_image", "");

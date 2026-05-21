@@ -7,7 +7,7 @@ public class StaticVar {
 
     // 常量
     private static final String KEY_IS_LOGIN = "is_login";
-    private static final String rootUrl = "http://192.168.93.1:8080";
+    private static final String rootUrl = "http://192.168.34.31:8080";
     public static final String publishUrl = rootUrl + "/publish/";
     public static final String userUrl = rootUrl + "/user/login/";
     public static final String registerUrl = rootUrl + "/user/register/";
@@ -20,7 +20,7 @@ public class StaticVar {
     public static final String searchUrl = rootUrl + "/search/";
     public static final String detailUrl = rootUrl + "/goods/detail/";
     public static final String MyUrl = rootUrl + "/mygoods/";
-    public static final String BaseUrl = "http://192.168.93.1:8080";
+    public static final String BaseUrl = "http://192.168.34.31:8080";
 
     public static String fileName = "session";
     public static String fileCookiename = "cookie";
@@ -45,7 +45,7 @@ public class StaticVar {
     public static final int LOGIN = 1;
     public static final int PublishmoneyNUM = 2;
     public static final int PublishClassify = 3;
-    public static final String DeleteUrl = "http://192.168.93.1:8080/delete_goods/";
+    public static final String DeleteUrl = "http://192.168.34.31:8080/delete_goods/";
 
     // 帖子发布请求码
     public static final int POST_PUBLISH_REQUEST = 1002;

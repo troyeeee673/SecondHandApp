@@ -47,7 +47,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     private ProgressBar progressBar;
     // 复用index包的Photo类，全局图片列表
     private final List<Photo> photoList = new ArrayList<>();
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
     // 复用index包的PhotoAdapter
     private PhotoAdapter photoAdapter;
     private String username; // 卖家/作者账号

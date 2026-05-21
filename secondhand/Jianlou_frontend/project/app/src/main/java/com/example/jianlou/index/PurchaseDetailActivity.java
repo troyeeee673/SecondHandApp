@@ -126,7 +126,7 @@ public class PurchaseDetailActivity extends AppCompatActivity {
             BACKEND_BASE_URL = getString(R.string.backend_base_url);
         } catch (Exception e) {
             // 备用地址（防止资源文件未配置）
-            BACKEND_BASE_URL = "http://192.168.93.1:8080";
+            BACKEND_BASE_URL = "http://192.168.34.31:8080";
             Log.w(TAG, "未从资源文件获取到后端地址，使用备用地址：" + BACKEND_BASE_URL);
         }
     }

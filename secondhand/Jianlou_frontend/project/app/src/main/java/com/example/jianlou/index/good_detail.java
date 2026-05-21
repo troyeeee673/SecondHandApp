@@ -57,7 +57,7 @@ public class good_detail extends AppCompatActivity implements View.OnClickListen
     private final List<Photo> photoList = new ArrayList<>();
     private final List<Comment> commentList = new ArrayList<>();
     private String username;
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
     private PhotoAdapter photoAdapter;
     private CommentAdapter commentAdapter;
 
