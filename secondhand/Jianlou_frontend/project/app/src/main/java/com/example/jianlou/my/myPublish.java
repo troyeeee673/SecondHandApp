@@ -35,7 +35,7 @@ public class myPublish extends AppCompatActivity implements View.OnClickListener
     private final List<Publish> goodList = new ArrayList<>();
     private PublishAdapter goodAdapter;
 
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
     private static final String DELETE_URL = BACKEND_BASE_URL + "/delete_goods/";
 
     @Override

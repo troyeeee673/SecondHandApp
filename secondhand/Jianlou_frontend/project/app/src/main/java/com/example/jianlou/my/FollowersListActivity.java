@@ -31,7 +31,7 @@ import okhttp3.Response;
 
 public class FollowersListActivity extends AppCompatActivity {
     private static final String TAG = "FollowersList";
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
 
     private RecyclerView recyclerView;
     private TextView emptyView, titleView;

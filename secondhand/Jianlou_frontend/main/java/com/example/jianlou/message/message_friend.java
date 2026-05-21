@@ -1,10 +1,10 @@
 package com.example.jianlou.message;
 
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,29 +15,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.jianlou.Internet.HttpUtil;
-import com.example.jianlou.Login.Login;
 import com.example.jianlou.R;
 import com.example.jianlou.staticVar.StaticVar;
-import com.example.jianlou.staticVar.Table;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-public class message_friend extends AppCompatActivity {
+public class message_friend extends AppCompatActivity implements WebSocketManager.MessageListener {
 
     ImageView back;
     private List<Message> messageList = new ArrayList<>();
@@ -59,95 +48,109 @@ public class message_friend extends AppCompatActivity {
 
     private void init() {
         back = findViewById(R.id.message_friend_back);
-        progressBar=findViewById(R.id.message_friend_bar);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        initMessage();
+        progressBar = findViewById(R.id.message_friend_bar);
+        back.setOnClickListener(v -> finish());
+
         recyclerView = findViewById(R.id.message_friend_RecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-    }
+        // 注册WebSocket监听
+        WebSocketManager.getInstance().addListener(this);
 
-    private void initMessage() {
-        progressBar.setVisibility(View.VISIBLE);
-        messageList.clear();
-        RequestBody requestBody=new FormBody.Builder()
-                .add(Table.cookie,StaticVar.cookie)
-                .build();
-        HttpUtil.sendOkHttpRequest(StaticVar.friendUrl,requestBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                updateUI();
-                outputMessage("请求失败，请检查网络");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                updateUI();
-                response(response);
-            }
-        });
-    }
-
-    private void response(Response response) throws IOException {
-        if (response.code() == 200) {
-            if (response.body() != null) {
-                String responseData = response.body().string();
-                if(responseData.equals("failed")){
-                    outputMessage("服务器错误");
-                }else {
-                    try {
-                        JSONArray jsonArray=new JSONArray(responseData);
-                        for(int i=0;i<jsonArray.length();i++){
-                            JSONObject jsonObject=jsonArray.getJSONObject(i);
-                            String username=jsonObject.getString("username");
-                            String content = jsonObject.getString("message");
-                            String user_name = jsonObject.getString("user_name");
-                            Message message = new Message(R.mipmap.shequ0, content, user_name,username);
-                            messageList.add(message);
-                        }
-                        updateRecycle();
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }}
-        else {
-            outputMessage("服务器故障");
+        // 确保WebSocket已连接，然后拉取会话列表
+        if (WebSocketManager.getInstance().isConnected()) {
+            loadConversationList();
+        } else {
+            WebSocketManager.getInstance().connect();
         }
     }
 
-    private void updateRecycle() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                messageAdapter = new MessageAdapter(messageList);
-                recyclerView.setAdapter(messageAdapter);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WebSocketManager.getInstance().removeListener(this);
+    }
+
+    private void loadConversationList() {
+        progressBar.setVisibility(View.VISIBLE);
+        WebSocketManager.getInstance().pullConversationList();
+    }
+
+    // ============ WebSocket回调 ============
+
+    @Override
+    public void onConnected() {
+        runOnUiThread(this::loadConversationList);
+    }
+
+    @Override
+    public void onNewMessage(JSONObject messageJson) {
+        // 收到新消息时，刷新会话列表（可能有新的最后一条消息）
+        runOnUiThread(this::loadConversationList);
+    }
+
+    @Override
+    public void onHistoryMessages(JSONArray messages) {
+        // 会话列表页面不处理
+    }
+
+    @Override
+    public void onConversationList(JSONArray conversations) {
+        messageList.clear();
+        try {
+            for (int i = 0; i < conversations.length(); i++) {
+                JSONObject json = conversations.getJSONObject(i);
+                String username = json.getString("username");
+                String user_name = json.getString("user_name");
+                String content = json.getString("message");
+                String goodsId = json.optString("goods_id", "");
+
+                // 扩展Message类以支持goodsId
+                Message msg = new Message(R.mipmap.shequ0, content, user_name, username);
+                msg.setGoodsId(goodsId);
+                messageList.add(msg);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        runOnUiThread(() -> {
+            messageAdapter = new MessageAdapter(messageList);
+            recyclerView.setAdapter(messageAdapter);
+            progressBar.setVisibility(View.GONE);
         });
     }
 
+    @Override
+    public void onSendAck(String sendTime, String status) {
+        // 不处理
+    }
 
-    /**
-     * 获得随机数
-     */
+    @Override
+    public void onDisconnected() {
+        runOnUiThread(() -> {
+            Toast.makeText(message_friend.this, "消息服务已断开", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        });
+    }
+
+    @Override
+    public void onError(String error) {
+        runOnUiThread(() -> {
+            Toast.makeText(message_friend.this, "连接错误: " + error, Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+        });
+    }
+
+    // ============ 原有方法保持 ============
+
     private String getRadom() {
         Random random = new Random();
         int length = random.nextInt(10000) + 1;
         return String.valueOf(length);
     }
 
-    /**
-     * 响应菜单的
-     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int position = messageAdapter.getPosition();
@@ -157,30 +160,11 @@ public class message_friend extends AppCompatActivity {
                 break;
             case 1:
                 new AlertDialog.Builder(this).setMessage("确认删除该数据？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                messageAdapter.removeData(position);
-                            }
-                        })
+                        .setPositiveButton("确定", (dialog, which) -> messageAdapter.removeData(position))
                         .setNegativeButton("取消", null)
                         .show();
-
                 break;
         }
         return super.onContextItemSelected(item);
     }
-    private void updateUI(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-    }
-    private void outputMessage(String message){
-        Looper.prepare();
-        Toast.makeText(message_friend.this, message, Toast.LENGTH_SHORT).show();
-        Looper.loop();
-    }
-
 }

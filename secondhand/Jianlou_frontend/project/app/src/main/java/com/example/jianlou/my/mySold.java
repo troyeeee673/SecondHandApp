@@ -36,7 +36,7 @@ public class mySold extends AppCompatActivity implements View.OnClickListener {
     private SoldAdapter soldAdapter;
     private boolean isLoading = false;
 
-    private static final String BACKEND_BASE_URL = "http://192.168.93.1:8080";
+    private static final String BACKEND_BASE_URL = "http://192.168.34.31:8080";
     private static final String MY_SOLD_URL = BACKEND_BASE_URL + "/orders/my_sold/";
     private static final String TAG = "MySoldActivity";
 

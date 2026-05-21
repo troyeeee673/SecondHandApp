@@ -73,6 +73,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         Intent intent=new Intent(v.getContext(),chat.class);
                         intent.putExtra("username",message.geMessagetUsername());
                         intent.putExtra("friend_name",message.getMessageUser_name());
+                        intent.putExtra("goodsId", message.getGoodsId());
                         v.getContext().startActivity(intent);
                     }
                 }

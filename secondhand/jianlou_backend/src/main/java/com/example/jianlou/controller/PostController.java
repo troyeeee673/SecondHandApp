@@ -43,7 +43,7 @@ public class PostController {
     private static final String UPLOAD_BASE_PATH = PROJECT_ROOT_PATH + "/upload/post/";
     // 方案2：自定义固定绝对路径（注释方案1，启用此方案）
     // private static final String UPLOAD_BASE_PATH = "D:/project_upload/post/";
-    private static final String ROOT_URL = "http://192.168.93.1:8080";
+    private static final String ROOT_URL = "http://192.168.34.31:8080";
 
     @PostMapping(value = "/publish", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 // 移除@RequestParam String postId参数，后端自行生成

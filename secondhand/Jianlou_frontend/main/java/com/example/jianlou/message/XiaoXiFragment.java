@@ -64,6 +64,10 @@ public class XiaoXiFragment extends Fragment {
                 startActivity(intent);
             }
         });
+         // 初始化WebSocket连接
+        if (!StaticVar.cookie.equals("")) {
+            WebSocketManager.getInstance().connect();
+        }
     }
 }
 
